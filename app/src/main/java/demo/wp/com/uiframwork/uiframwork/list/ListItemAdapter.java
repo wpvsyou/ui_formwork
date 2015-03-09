@@ -47,9 +47,15 @@ public class ListItemAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.list_item_layout, parent, false);
 		}
 		final ViewHolder holder = new ViewHolder();
+	        final ItemInstance data = getItemInstance().get(position);	
 		holder.title = (TextView) convertView.findViewById(R.id.base_list_fragment_title);
 		holder.title.setText(mList.get(position).getTitle());
 		holder.text = (TextView) convertView.findViewById(R.id.base_list_fragment_text);
+		if(data.isClick()) {
+	                holder.text.setText(data.report);		
+		} else {
+	                holder.text.setText(data.getText());		
+		}
 		holder.item = (LinearLayout) convertView.findViewById(R.id.base_list_fragment_item);
 		holder.item.setOnClickListener(new View.OnClickListener() {
 			@Override
