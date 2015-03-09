@@ -47,20 +47,20 @@ public class ListItemAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.list_item_layout, parent, false);
 		}
 		final ViewHolder holder = new ViewHolder();
-	        final ItemInstance data = getItemInstance().get(position);	
+		final BaseListItemFragment.ItemInstance data = mList.get(position);
 		holder.title = (TextView) convertView.findViewById(R.id.base_list_fragment_title);
-		holder.title.setText(mList.get(position).getTitle());
+		holder.title.setText(data.getTitle());
 		holder.text = (TextView) convertView.findViewById(R.id.base_list_fragment_text);
-		if(data.isClick()) {
-	                holder.text.setText(data.report);		
+		if (data.isClick()) {
+			holder.text.setText(data.report);
 		} else {
-	                holder.text.setText(data.getText());		
+			holder.text.setText(data.getText());
 		}
 		holder.item = (LinearLayout) convertView.findViewById(R.id.base_list_fragment_item);
 		holder.item.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				holder.text.setText(mList.get(position).onItemClick());
+				holder.text.setText(data.execute());
 			}
 		});
 		return convertView;

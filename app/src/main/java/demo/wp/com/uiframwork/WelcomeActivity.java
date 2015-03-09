@@ -1,35 +1,16 @@
 package demo.wp.com.uiframwork;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import demo.wp.com.uiframwork.uiframwork.largescreen.BaseFragment;
-import demo.wp.com.uiframwork.uiframwork.largescreen.BaseFragmentActivity;
-import demo.wp.com.uiframwork.uiframwork.largescreen.BaseHeadlineFragment;
-
-public class WelcomeActivity extends BaseFragmentActivity {
-
-	private List<BaseFragmentInstance> list = new ArrayList<BaseFragmentInstance>();
-
-	@Override
-	public List<BaseFragmentInstance> getContentFragmentList() {
-		return list;
-	}
-
-	@Override
-	public BaseHeadlineFragment getHeadlineFragment() {
-		return new BaseHeadlineFragment();
-	}
+public class WelcomeActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		BaseFragmentInstance baseFragmentInstance = new BaseFragmentInstance();
-		DebugItemListFragment contentFragment = new DebugItemListFragment();
-		baseFragmentInstance.title = "Debug test --> ";
-		baseFragmentInstance.baseFragment = contentFragment;
-		list.add(baseFragmentInstance);
+		setContentView(R.layout.activity_my);
+		DebugItemListFragment fragment = new DebugItemListFragment();
+		getSupportFragmentManager()
+				.beginTransaction().add(R.id.fragment, fragment).commit();
 	}
 }

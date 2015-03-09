@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import demo.wp.com.uiframwork.R;
@@ -17,14 +18,14 @@ import demo.wp.com.uiframwork.uiframwork.largescreen.BaseFragment;
 public abstract class BaseListItemFragment extends BaseFragment {
 
 	public abstract List<ItemInstance> getItemInstanceList();
-	
-        public static List<ItemResetListener> listeners = new ArrayList<ItemResetListener>();
-	
-	interface ItemResetListener {
-        	public void reset();
-    	}
 
-        static DebugItemAdapter mAdapter;
+	public static List<ItemResetListener> listeners = new ArrayList<ItemResetListener>();
+
+	interface ItemResetListener {
+		public void reset();
+	}
+
+	static ListItemAdapter mAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -37,52 +38,51 @@ public abstract class BaseListItemFragment extends BaseFragment {
 		LayoutInflater inflater = LayoutInflater.from(getActivity());
 		ListView lv = (ListView) view.findViewById(R.id.base_list_view);
 		mAdapter = new ListItemAdapter(getItemInstanceList(), inflater);
-		lv.setAdapter(adapter);
+		lv.setAdapter(mAdapter);
 	}
 
 	protected static void resetAll() {
-        	Log.d(TAG, "DebugActivity reset method! the listeners size [" + listeners.size() + "]");
-        	if (listeners.size() > 0) {
-            	for (ItemResetListener l : listeners) {
-                	l.reset();
-           	 }	
-            	mAdapter.notifyDataSetChanged();
-            	listeners.clear();
-       		 }
-   	 }
+		if (listeners.size() > 0) {
+			for (ItemResetListener l : listeners) {
+				l.reset();
+			}
+			mAdapter.notifyDataSetChanged();
+			listeners.clear();
+		}
+	}
 
-    /**
-     * Abstract class for instance item to test!
-     */
-   static abstract class Item {
-        public abstract String getTitle();
+	/**
+	 * Abstract class for instance item to test!
+	 */
+	static abstract class Item {
+		public abstract String getTitle();
 
-        public abstract String execute();
+		public abstract String execute();
 
-        public abstract boolean isClick();
+		public abstract boolean isClick();
 
-        public static String getText() {
-            return "";
-        }
+		public static String getText() {
+			return "";
+		}
 
-        public String report;
+		public String report;
 
-        public static boolean isClick;
-    }
+		public static boolean isClick;
+	}
 
-    /**
-     * Add a interface for reset test!
-     */
-    static abstract class ItemInstance extends Item implements ItemResetListener{
+	/**
+	 * Add a interface for reset test!
+	 */
+	protected static abstract class ItemInstance extends Item implements ItemResetListener {
 
-        @Override
-        public String execute() {
-            if (!listeners.contains(this)) {
-                listeners.add(this);
-            }
-            return executeAction();
-        }
+		@Override
+		public String execute() {
+			if (!listeners.contains(this)) {
+				listeners.add(this);
+			}
+			return executeAction();
+		}
 
-        public abstract String executeAction();
-    }
+		public abstract String executeAction();
+	}
 }
